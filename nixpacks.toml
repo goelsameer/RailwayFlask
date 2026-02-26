@@ -1,14 +1,16 @@
 [phases.setup]
-# Force the inclusion of Python and necessary build tools
 nixPkgs = ["python310", "gcc"]
 
 [phases.install]
-# Bootstraps pip and installs requirements in one go
-cmds = ["python3 -m ensurepip --default-pip", "python3 -m pip install -r requirements.txt"]
+# Create venv, activate it, and install everything inside it
+cmds = [
+    "python3 -m venv .venv",
+    ".venv/bin/pip install --upgrade pip",
+    ".venv/bin/pip install -r requirements.txt"
+]
 
 [phases.build]
-# Your specific SpaCy model download
-cmds = ["python3 -m spacy download en_core_web_sm"]
+cmds = [".venv/bin/python -m spacy download en_core_web_sm"]
 
 [start]
-cmd = "gunicorn -w 1 --timeout 120 -b 0.0.0.0:$PORT Ai-mlPython:app"
+cmd = ".venv/bin/gunicorn -w 1 --timeout 120 -b 0.0.0.0:$PORT Ai-mlPython:app"
