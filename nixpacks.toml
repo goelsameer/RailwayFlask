@@ -1,0 +1,18 @@
+# 1. Tell Railway this is a Python project
+providers = ["python"]
+
+[phases.setup]
+# 2. Explicitly install Python 3 and build tools (needed for some AI libs)
+nixPkgs = ["python310", "gcc"]
+
+[phases.install]
+# 3. Run the library installation
+cmds = ["python3 -m pip install -r requirements.txt"]
+
+[phases.build]
+# 4. Download the SpaCy model
+cmds = ["python3 -m spacy download en_core_web_sm"]
+
+[start]
+# 5. How to start the production server
+cmd = "gunicorn -w 1 --timeout 120 -b 0.0.0.0:$PORT brain:app"
