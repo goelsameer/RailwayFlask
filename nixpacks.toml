@@ -15,5 +15,5 @@ cmds = [
 cmds = ["/opt/venv/bin/python -m spacy download en_core_web_sm"]
 
 [start]
-# Use the full path to gunicorn to avoid 'command not found'
-cmd = "/opt/venv/bin/gunicorn -w 1 --timeout 120 -b 0.0.0.0:$PORT Ai-mlPython:app"
+# We wrap the command in 'sh -c' to ensure $PORT is turned into a number
+cmd = "sh -c '/opt/venv/bin/gunicorn -w 1 --timeout 120 -b 0.0.0.0:$PORT Ai-mlPython:app'"
