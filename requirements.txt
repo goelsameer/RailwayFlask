@@ -1,0 +1,10 @@
+flask
+flask-cors
+gunicorn
+# Use the CPU-only version of torch to stay under RAM limits
+--index-url https://download.pytorch.org/whl/cpu
+torch
+torchvision
+transformers
+spacy
+Pillow
