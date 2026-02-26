@@ -1,8 +1,10 @@
+# Use EXTRA-index so pip still checks the main Python registry for Flask
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 flask
 flask-cors
 gunicorn
-# Use the CPU-only version of torch to stay under RAM limits
---index-url https://download.pytorch.org/whl/cpu
+# These will now be found in the extra-index-url above
 torch
 torchvision
 transformers
