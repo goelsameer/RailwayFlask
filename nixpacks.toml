@@ -1,16 +1,19 @@
 [phases.setup]
+# Point to the specific Python version and build tools
 nixPkgs = ["python310", "gcc"]
 
 [phases.install]
-# Create venv, activate it, and install everything inside it
+# Create a virtual environment and install requirements inside it
 cmds = [
-    "python3 -m venv .venv",
-    ".venv/bin/pip install --upgrade pip",
-    ".venv/bin/pip install -r requirements.txt"
+    "python3 -m venv /opt/venv",
+    "/opt/venv/bin/pip install --upgrade pip",
+    "/opt/venv/bin/pip install -r requirements.txt"
 ]
 
 [phases.build]
-cmds = [".venv/bin/python -m spacy download en_core_web_sm"]
+# Download the SpaCy model into the virtual environment
+cmds = ["/opt/venv/bin/python -m spacy download en_core_web_sm"]
 
 [start]
-cmd = ".venv/bin/gunicorn -w 1 --timeout 120 -b 0.0.0.0:$PORT Ai-mlPython:app"
+# Use the full path to gunicorn to avoid 'command not found'
+cmd = "/opt/venv/bin/gunicorn -w 1 --timeout 120 -b 0.0.0.0:$PORT Ai-mlPython:app"
