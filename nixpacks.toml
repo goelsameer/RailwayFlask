@@ -12,8 +12,10 @@ cmds = [
 
 [phases.build]
 # Download the SpaCy model into the virtual environment
-cmds = ["/opt/venv/bin/python -m spacy download en_core_web_sm"]
-
+cmds = [
+    "/opt/venv/bin/python -m spacy download en_core_web_sm",
+    "chmod +x start.sh"
+]
 [start]
 # We wrap the command in 'sh -c' to ensure $PORT is turned into a number
-cmd = "sh -c '/opt/venv/bin/gunicorn -w 1 --timeout 120 -b 0.0.0.0:$PORT Ai-mlPython:app'"
+cmd = "./start.sh"
